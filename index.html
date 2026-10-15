@@ -35,13 +35,14 @@ h3{margin:18px 0 6px;font-size:13px;font-weight:700;color:var(--fg);letter-spaci
 .seg button[aria-pressed=true]{background:var(--card);color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
 .seg button:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
 .check input{width:18px;height:18px;accent-color:var(--acc);cursor:pointer}
+.check.is-disabled{opacity:.45;pointer-events:none}
 .kvdr-fields.is-disabled{opacity:.45;pointer-events:none;filter:grayscale(.35)}
 .kpis{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:12px}
 @media(max-width:700px){.kpis{grid-template-columns:1fr 1fr}}
 .k{border-radius:12px;padding:14px;background:var(--card);border:1px solid var(--line);box-shadow:0 2px 8px rgba(28,37,33,.04)}
 .k small{color:var(--mut);font-size:11px;display:block}
-.k b{font-size:20px;font-weight:600;letter-spacing:-.02em;display:block;margin-top:2px;font-family:'IBM Plex Mono',ui-monospace,monospace}
-.k.main{border-color:var(--acc)}.k.main b{font-size:26px;color:var(--acc)}
+.k b{font-size:26px;font-weight:600;letter-spacing:-.02em;display:block;margin-top:2px;font-family:'IBM Plex Mono',ui-monospace,monospace}
+.k.main{border-color:var(--acc)}.k.main b{color:var(--acc)}
 .k .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
 .main-col{display:grid;gap:16px}
 .chart svg{width:100%;height:auto;display:block;margin-top:8px}
@@ -168,7 +169,12 @@ function chart(inc,kv,st,av){
  $('ch').innerHTML=o;
 }
 function calc(){
- const on=$('vap').value==='1',km=$('mod').value==='k',rentner=$('rentnerKvdr').checked,vk=n('vk'),gf=n('gf');
+ const on=$('vap').value==='1',km=$('mod').value==='k',vk=n('vk'),gf=n('gf'),se=n('se'),rentnerToggle=$('rentnerKvdr');
+ const kvdrEnabled=se>0;
+ rentnerToggle.disabled=!kvdrEnabled;
+ rentnerToggle.closest('.check').classList.toggle('is-disabled',!kvdrEnabled);
+ if(!kvdrEnabled)rentnerToggle.checked=false;
+ const rentner=rentnerToggle.checked;
  $('kvdrFields').classList.toggle('is-disabled',rentner);
  $('vkPct').textContent=(n('best')>0?(vk/n('best')*100).toLocaleString('de-DE',{maximumFractionDigits:2}):'0')+' % vom Bestand';
  $('gwLabel').textContent=' ('+n('gw').toLocaleString('de-DE',{maximumFractionDigits:2})+' %)';
@@ -176,7 +182,7 @@ function calc(){
  const gew=vk*n('gw')/100,tf=gew*(1-n('tfs')/100),nach=Math.max(0,tf-n('spb'));
  const vf=n('bz')/100*0.7*(1-n('tfs')/100);
  const v1=on?Math.max(0,n('best')-vk)*vf:0,v2=on?-Math.min(vk*vf,gew):0;
- const s1=nach+v1+v2,s2=s1+n('se'),kap=Math.max(0,s1),se=n('se');
+ const s1=nach+v1+v2,s2=s1+se,kap=Math.max(0,s1);
  const kvdrRate=12.35,kvGrundlage=rentner?se:s2,kvBasis=rentner?kvGrundlage*kvdrRate/100/12:km?n('kvmin'):Math.max(kvGrundlage*n('kvs')/100/12,n('kvmin')),kvm=rentner?Math.min(n('kvmax'),kvBasis):km?kvBasis:Math.min(n('kvmax'),kvBasis),kvj=kvm*12;
  const abz=kvj+n('sa'),kest=kap*0.25*1.055;
  let st,zve,a1,a2,l1,l2;
