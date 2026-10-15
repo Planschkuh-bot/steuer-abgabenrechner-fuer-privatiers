@@ -212,7 +212,7 @@ function calc(){
  chart(inc,kvj,st,vj);
  $('cap').textContent='Abgaben (KV/PV + Steuer): '+(inc>0?((kvj+st)/inc*100).toFixed(1).replace('.',','):'0')+' % der Einnahmen aus Verkauf und sonstigen Erträgen.';
 }
-const sliderConfig={best:[0,3000000,1000],gw:[0,100,1],grv:[0,10000,100],se:[0,10000,100],vk:[0,300000,100],bz:[0,10,.1],spb:[0,5000,50],gf:[0,30000,100],kvs:[0,50,.1],kvmin:[0,1000,10],kvmax:[0,3000,10],privateKvm:[0,3000,10]};
+const sliderConfig={best:[0,3000000,1000],gw:[0,100,1],grv:[0,10000,25],se:[0,10000,25],vk:[0,300000,100],bz:[0,10,.1],spb:[0,5000,50],gf:[0,30000,100],kvs:[0,50,.1],kvmin:[0,1000,10],kvmax:[0,3000,10],privateKvm:[0,3000,10]};
 for(const [id,[min,max,step]] of Object.entries(sliderConfig)){
  const input=$(id),box=input.closest('.in'),range=document.createElement('input');
  range.type='range';range.className='param-range';range.min=min;range.max=max;range.step=step;range.value=parse(input.value);
