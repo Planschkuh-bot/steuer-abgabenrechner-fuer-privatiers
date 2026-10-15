@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Steuer- &amp; Abgabenrechner für Privatiers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#EEF1EF;--card:#FFFFFF;--sub:#FAFBFA;--fg:#1C2521;--mut:#5B6B65;--line:#D3DAD6;--acc:#2F5D62;--soft:#E8F0EE;--pos:#2F5D62;--kv:#3A6B8A;--tax:#A8432F;--chart-income:#B7C9C3;--chart-kv:#AFC4D1;--chart-tax:#D8A69A;--chart-available:#8FA9A3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.45 Inter,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-variant-numeric:tabular-nums}
+.top{max-width:1220px;margin:0 auto;padding:28px 20px 6px}
+.top h1{margin:0;font-size:23px;font-weight:700;letter-spacing:-.02em;line-height:1.25}
+.top p{margin:5px 0 0;color:var(--mut);font-size:12.5px}
+.wrap{max-width:1220px;margin:0 auto;padding:16px 20px 32px;display:grid;grid-template-columns:340px 1fr;gap:20px;align-items:start}
+@media(max-width:860px){.wrap{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;box-shadow:0 2px 8px rgba(28,37,33,.04)}
+.side{position:sticky;top:12px}@media(max-width:860px){.side{position:static}}
+h2{margin:0 0 4px;font-size:15px;font-weight:600;color:var(--acc)}
+h3{margin:18px 0 6px;font-size:13px;font-weight:700;color:var(--fg);letter-spacing:.1px}
+.p{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}
+.p>span:first-child{color:var(--mut);font-size:12.5px}
+.p .ratio{display:block;flex:0 0 100%;padding:2px 0 3px;color:var(--acc);font-size:10px;font-weight:600;text-align:right;white-space:nowrap;border-top:1px solid #E4EBE7}
+.in{display:flex;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid #C8D1CC;border-radius:8px;padding:0 7px;width:132px}
+.in:focus-within{border-color:var(--acc);box-shadow:0 0 0 3px rgba(47,93,98,.12)}
+.in input{all:unset;flex:1;min-width:0;text-align:right;padding:6px 0;font-weight:600;color:var(--fg);font-size:13px}
+.in i{font-style:normal;color:var(--mut);margin-left:5px;font-size:12px}
+.nudge{all:unset;width:20px;height:24px;color:var(--acc);font-size:16px;font-weight:600;line-height:24px;text-align:center;cursor:pointer;border-radius:5px}
+.nudge:hover{background:var(--soft)}
+.nudge:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+.in input.param-range{display:block;flex:0 0 100%;width:100%;height:4px;margin:7px 0 7px;padding:0;appearance:auto;-webkit-appearance:auto;accent-color:var(--acc);cursor:pointer}
+.preset{width:100%;padding:9px 12px;border:2px solid var(--acc);border-radius:8px;background:var(--card);color:var(--acc);font:500 12.5px Inter,sans-serif;box-shadow:0 2px 6px rgba(47,93,98,.08);cursor:pointer}
+.preset:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+.seg{display:flex;background:var(--sub);border:1px solid var(--line);border-radius:8px;padding:2px}
+.seg button{all:unset;cursor:pointer;padding:5px 10px;border-radius:6px;font-size:12px;font-weight:600;color:var(--mut)}
+.seg button[aria-pressed=true]{background:var(--card);color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
+.seg button:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+.kpis{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:12px}
+@media(max-width:700px){.kpis{grid-template-columns:1fr 1fr}}
+.k{border-radius:12px;padding:14px;background:var(--card);border:1px solid var(--line);box-shadow:0 2px 8px rgba(28,37,33,.04)}
+.k small{color:var(--mut);font-size:11px;display:block}
+.k b{font-size:20px;font-weight:600;letter-spacing:-.02em;display:block;margin-top:2px;font-family:'IBM Plex Mono',ui-monospace,monospace}
+.k.main{border-color:var(--acc)}.k.main b{font-size:26px;color:var(--acc)}
+.k .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.main-col{display:grid;gap:16px}
+.chart svg{width:100%;height:auto;display:block;margin-top:8px}
+.chart .t{fill:var(--fg);font:600 13px Inter,sans-serif}.chart .l{fill:var(--mut);font:500 12px Inter,sans-serif}
+.chart .c{stroke:var(--line);stroke-dasharray:3 3}
+.cap{color:var(--mut);font-size:12px;margin:6px 0 0}
+.r{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 2px;border-bottom:1px solid var(--line);font-size:12.5px}
+.r>span:first-child{flex:1}
+.v{white-space:nowrap;font-weight:600;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12.5px}
+.tot,.tot .v{font-weight:700}
+.gap{height:10px}
+.r input{all:unset;width:110px;text-align:right;font-weight:600;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12.5px;background:var(--soft);border-radius:8px;padding:5px 9px;box-sizing:border-box}
+.r input:focus{box-shadow:0 0 0 2px var(--acc)}
+summary.r{cursor:pointer;list-style:none}summary.r::-webkit-details-marker{display:none}
+summary.r span:first-child::before{content:"▸ ";color:var(--mut)}details[open] summary.r span:first-child::before{content:"▾ "}
+.wg{padding:8px 12px;margin:4px 0 6px;background:var(--sub);border-radius:8px;font-size:12px;color:var(--mut);line-height:1.6}
+.res,.res .v{font-weight:700}
+.avail,.avail .v{color:var(--pos);font-weight:700}
+.r.focus{margin:2px 0;padding:9px 10px;border:1px solid transparent;border-radius:7px}
+.r.focus.income{background:#F3F7F5;border-color:#DCE8E3}
+.r.focus.total{background:#F0F5F3;border-color:#D0DFD9}
+.r.focus.cost{background:#F5F7F8;border-color:#E0E6E9}
+.r.focus.tax{background:#FBF5F2;border-color:#F0DDD6}
+.r.focus.available{background:#F1F7F2;border-color:#D9E9DA}
+.note{max-width:1220px;margin:0 auto;padding:0 20px 28px;color:var(--mut);font-size:11.5px}
+</style></head><body>
+<script data-goatcounter="https://planschkuh-entnahme.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<div class="top"><h1>Steuer- &amp; Abgabenrechner für Privatiers</h1><p>Aktien-ETF-Verkauf, Vorabpauschale, Krankenversicherung und Steuer im Überblick</p></div>
+<div class="wrap">
+<aside class="card side"><h2>Parameter</h2>
+<h3>Presets</h3>
+<select id="preset" class="preset" aria-label="Preset auswählen">
+<option value="">Preset auswählen …</option>
+<option value="lean-fire">Lean FIRE (750.000 €, 4 % Entnahme)</option>
+<option value="regular-fire" selected>Regular FIRE (1.000.000 €, 3,5 % Entnahme)</option>
+<option value="fat-fire">Fat FIRE (1.750.000 €, 3 % Entnahme)</option>
+</select>
+<h3>Bestand und Einnahmen</h3>
+<label class="p"><span>Bestand Aktien-ETF (Wert zu Jahresbeginn)</span><span class="in"><input id="best" value="1.000.000"><i>€</i></span></label>
+<label class="p"><span>Verkauf Aktien-ETF-Anteile</span><span class="in"><input id="vk" value="35.000"><i>€</i><small class="ratio" id="vkPct"></small></span></label>
+<label class="p"><span>Anteil Gewinn bei Verkauf</span><span class="in"><input id="gw" value="70"><i>%</i></span></label>
+<label class="p"><span>Sonstige Erträge (z.B. Rente)</span><span class="in"><input id="se" value="0"><i>€</i></span></label>
+<h3>Vorabpauschale</h3>
+<div class="p"><span>VAP berücksichtigen?</span><div class="seg" data-for="vap"><button data-v="1">Ja</button><button data-v="0">Nein</button></div></div>
+<label class="p"><span>Basiszins für VAP</span><span class="in"><input id="bz" value="3,2"><i>%</i></span></label>
+<h3>Steuer</h3>
+<div class="p"><span>Besteuerung</span><div class="seg" data-for="mod"><button data-v="g">Günstigerprüfung</button><button data-v="k">KESt</button></div></div>
+<label class="p"><span>Sparerpauschbetrag</span><span class="in"><input id="spb" value="1.000"><i>€</i></span></label>
+<label class="p"><span>Grundfreibetrag</span><span class="in"><input id="gf" value="12.564"><i>€</i></span></label>
+<h3>Krankenversicherung</h3>
+<label class="p"><span>Beitrag KV &amp; PV</span><span class="in"><input id="kvs" value="23"><i>%</i></span></label>
+<label class="p"><span>Mindestbetrag KV &amp; PV p.m.</span><span class="in"><input id="kvmin" value="295"><i>€</i></span></label>
+<label class="p"><span>Maximalbetrag KV &amp; PV p.m.</span><span class="in"><input id="kvmax" value="1.385"><i>€</i></span></label>
+<select id="vap" hidden><option value="1">Ja</option><option value="0">Nein</option></select>
+<select id="mod" hidden><option value="g">Günstigerprüfung</option><option value="k">KESt</option></select>
+<input id="tfs" type="hidden" value="30"><input id="sa" type="hidden" value="36">
+</aside>
+<main class="main-col">
+<section class="card"><h2>Berechnung</h2>
+<div class="r focus income"><span>Verkauf Aktien-ETF-Anteile</span><span class="v" id="o0"></span></div>
+<div class="r"><span>davon Gewinn <span id="gwLabel"></span></span><span class="v" id="o1"></span></div>
+<div class="r"><span>abzüglich Teilfreistellung (30 %)</span><span class="v" id="o2"></span></div>
+<div class="r"><span>abzüglich Sparerpauschbetrag <span id="spbLabel"></span></span><span class="v" id="o3"></span></div>
+<details><summary class="r"><span>VAP auf verbleibende Anteile (Bestand − Verkauf)</span><span class="v" id="o4"></span></summary><div class="wg" id="w4"></div></details>
+<details><summary class="r"><span>VAP auf verkaufte Anteile</span><span class="v" id="o5"></span></summary><div class="wg" id="w5"></div></details>
+<div class="r focus total"><span>Summe (Kapitalerträge)</span><span class="v" id="o6"></span></div>
+<div id="modeRows"><div class="r" id="modeRow1"><span id="modeLabel1">KESt + Soli (25 % + 5,5 %)</span><span class="v" id="k0"></span></div><div class="r tot" id="modeRow2"><span>Summe</span><span class="v" id="o7"></span></div></div>
+<details><summary class="r focus cost"><span>KV &amp; PV Jahr</span><span class="v" id="o8"></span></summary><div class="wg" id="wkv"></div></details>
+<div class="r focus cost"><span>KV &amp; PV Monat</span><span class="v" id="o9"></span></div>
+<div class="r"><span id="lz">z. vst. EK nach Abzug KV &amp; PV</span><span class="v" id="o11"></span></div>
+<div class="r" id="r1"><span id="l1"></span><span class="v" id="k1"></span></div>
+<div class="r"><span id="l2"></span><span class="v" id="k2"></span></div>
+<div class="r" id="r3"><span>Günstiger</span><span class="v" id="k3"></span></div>
+<details><summary class="r res focus tax"><span>Steuer</span><span class="v" id="o12"></span></summary><div class="wg" id="w12"></div></details>
+<div class="r"><span>Steuer pro Monat</span><span class="v" id="o13"></span></div>
+<div class="gap"></div>
+<div class="r avail focus available"><span>Verfügbar pro Jahr</span><span class="v" id="o14"></span></div>
+<div class="r avail focus available"><span>Verfügbar pro Monat</span><span class="v" id="o15"></span></div>
+</section>
+<div class="kpis">
+<div class="k"><small>KV &amp; PV pro Jahr</small><b id="p4"></b></div>
+<div class="k"><small>Steuer pro Jahr</small><b id="p3"></b></div>
+<div class="k"><small>Verfügbar pro Jahr</small><b id="p2"></b></div>
+<div class="k main"><small>Verfügbar pro Monat</small><b id="p1"></b></div>
+</div>
+<section class="card chart"><h2>Vom Jahreseinkommen zum Verfügbaren</h2>
+<svg id="ch" viewBox="0 0 640 270" role="img" aria-label="Wasserfalldiagramm: Einnahmen, KV und PV, Steuer, verfügbar"></svg>
+<p class="cap" id="cap"></p></section></main></div>
+<div class="note">Günstigerprüfung: KV/PV auf alle Einkünfte (mind. Mindestbetrag), alle Einkünfte inkl. Kapitalerträge nach Tarif. KESt: Kapitalerträge mit 25 % + 5,5 % Soli, KV/PV nur mit dem Mindestbetrag, übrige Einkünfte nach Tarif; ohne Kirchensteuer. Teilfreistellung fest 30 %. Tarif: 2026er §32a-Formel, verschoben um die Differenz des Grundfreibetrags – nur eine Näherung. VAP = Wert × Basiszins × 70 % × (1 − Teilfreistellung), höchstens der Gewinn bei verkauften Anteilen. Verfügbar = Verkauf + Sonstige Erträge − KV/PV − Steuer. Keine Steuerberatung.</div>
+<script>
+const $=id=>document.getElementById(id);
+const parse=s=>{const v=parseFloat(String(s).replace(/\./g,'').replace(',','.'));return isNaN(v)?0:v};
+const n=id=>parse($(id).value);
+const f=x=>Math.round(x).toLocaleString('de-DE')+' €';
+function fmtInput(el){
+ const v=el.value,pos=el.selectionStart||0;
+ const before=v.slice(0,pos).replace(/[^\d,]/g,'').length;
+ let [i,...d]=v.replace(/[^\d,]/g,'').split(',');
+ i=i.replace(/^0+(?=\d)/,'');
+ const out=i.replace(/\B(?=(\d{3})+(?!\d))/g,'.')+(d.length?','+d.join('').slice(0,2):'');
+ el.value=out;
+ let c=0,p=0;
+ if(before>0)for(p=0;p<out.length;p++){if(/[\d,]/.test(out[p]))c++;if(c===before){p++;break}}
+ try{el.setSelectionRange(p,p)}catch(e){}
+}
+function tarif(x,gf){x=Math.floor(x-(gf-12348));if(x<=12348)return 0;
+ if(x<=17799){const y=(x-12348)/1e4;return Math.floor((914.51*y+1400)*y)}
+ if(x<=69878){const z=(x-17799)/1e4;return Math.floor((173.1*z+2397)*z+1034.87)}
+ if(x<=277825)return Math.floor(.42*x-11135.63);return Math.floor(.45*x-19470.38)}
+function chart(inc,kv,st,av){
+ const W=640,H=270,top=34,bot=44,h=H-top-bot,m=Math.max(inc,1),y=v=>top+h-(Math.max(v,0)/m)*h;
+ const cols=[{n:'Einnahmen',a:inc,b:0,c:'var(--chart-income)',t:f(inc)},{n:'KV & PV',a:inc,b:inc-kv,c:'var(--chart-kv)',t:'−'+f(kv),p:kv},{n:'Steuer',a:inc-kv,b:inc-kv-st,c:'var(--chart-tax)',t:'−'+f(st),p:st},{n:'Verfügbar',a:av,b:0,c:'var(--chart-available)',t:f(av)}];
+ const bw=100,gap=(W-4*bw)/5;let o='<line class="c" x1="0" x2="'+W+'" y1="'+y(0)+'" y2="'+y(0)+'"/>';
+ cols.forEach((c,i)=>{const x=gap+i*(bw+gap),y1=y(c.a),y2=y(c.b),hh=Math.max(y2-y1,2);
+  o+='<rect x="'+x+'" y="'+y1+'" width="'+bw+'" height="'+hh+'" rx="6" fill="'+c.c+'"/>';
+  o+='<text class="t" x="'+(x+bw/2)+'" y="'+(y1-8)+'" text-anchor="middle">'+c.t+'</text>';
+  o+='<text class="l" x="'+(x+bw/2)+'" y="'+(H-bot+20)+'" text-anchor="middle">'+c.n+'</text>';
+  if(c.p!==undefined)o+='<text class="l" x="'+(x+bw/2)+'" y="'+(H-bot+36)+'" text-anchor="middle">'+(inc>0?(c.p/inc*100).toFixed(1).replace('.',','):'0')+' % der Einnahmen</text>';
+  if(i<3){const ly=i===0?y(inc):y(c.b);o+='<line class="c" x1="'+(x+bw)+'" x2="'+(x+bw+gap)+'" y1="'+ly+'" y2="'+ly+'"/>'}});
+ $('ch').innerHTML=o;
+}
+function calc(){
+ const on=$('vap').value==='1',km=$('mod').value==='k',vk=n('vk'),gf=n('gf');
+ $('vkPct').textContent=(n('best')>0?(vk/n('best')*100).toLocaleString('de-DE',{maximumFractionDigits:2}):'0')+' % vom Bestand';
+ $('gwLabel').textContent=' ('+n('gw').toLocaleString('de-DE',{maximumFractionDigits:2})+' %)';
+ $('spbLabel').textContent=' ('+f(n('spb'))+')';
+ const gew=vk*n('gw')/100,tf=gew*(1-n('tfs')/100),nach=Math.max(0,tf-n('spb'));
+ const vf=n('bz')/100*0.7*(1-n('tfs')/100);
+ const v1=on?Math.max(0,n('best')-vk)*vf:0,v2=on?-Math.min(vk*vf,gew):0;
+ const s1=nach+v1+v2,s2=s1+n('se'),kap=Math.max(0,s1),se=n('se');
+ const kvBasis=km?n('kvmin'):Math.max(s2*n('kvs')/100/12,n('kvmin')),kvm=km?kvBasis:Math.min(n('kvmax'),kvBasis),kvj=kvm*12;
+ const abz=kvj+n('sa'),kest=kap*0.25*1.055;
+ let st,zve,a1,a2,l1,l2;
+ if(km){zve=Math.max(0,se-abz);a1=kest;a2=tarif(zve,gf);st=a1+a2;
+  l1='';l2='Einkommensteuer auf übrige Einkünfte (Tarif)';$('lz').textContent='z. vst. EK (ohne Kapitalerträge) nach Abzug KV & PV';}
+ else{zve=Math.max(0,s2-abz);a2=tarif(zve,gf);a1=0;st=a2;
+  l1='';l2='Einkommensteuer nach Tarif (Günstigerprüfung)';$('lz').textContent='z. vst. EK nach Abzug KV & PV';}
+ $('l1').textContent=l1;$('l2').textContent=l2;$('r3').style.display='none';$('r1').style.display='none';
+ $('modeRow1').style.visibility='visible';$('modeRow2').style.visibility=km?'hidden':'visible';$('modeLabel1').textContent=km?'KESt + Soli (25 % + 5,5 %)':'Sonstige Erträge';$('k0').textContent=f(km?kest:se);
+ $('k1').textContent=f(a1);$('k2').textContent=f(a2);
+ const inc=vk+se,vj=inc-kvj-st;
+ const o={o0:vk,o1:gew,o2:tf,o3:nach,o4:v1,o5:v2,o6:s1,o7:s2,o8:kvj,o9:kvm,o11:zve,o12:st,o13:st/12,o14:vj,o15:vj/12,p1:vj/12,p2:vj,p3:st,p4:kvj};
+ for(const k in o)$(k).textContent=f(o[k]);
+ const pf=x=>x.toLocaleString('de-DE',{maximumFractionDigits:3})+' %',bz=n('bz'),eff=vf*100,rest=Math.max(0,n('best')-vk),L=a=>a.map(t=>'<div>'+t+'</div>').join('');
+ $('w4').innerHTML=on?L(['Verbleibender Bestand: '+f(n('best'))+' − '+f(vk)+' = '+f(rest),'Basisertrag: Basiszins '+pf(bz)+' × 70 % = '+pf(bz*0.7),'Nach Teilfreistellung: × (1 − '+pf(n('tfs'))+') = '+pf(eff),'VAP: '+f(rest)+' × '+pf(eff)+' = '+f(v1)]):'Vorabpauschale ausgeschaltet → 0 €';
+ $('w5').innerHTML=on?L(['Verkaufsbetrag: '+f(vk)+' × '+pf(eff)+' (Faktor wie oben) = '+f(vk*vf),'Begrenzt auf den Gewinn ('+f(gew)+'): '+f(-v2),'Abzug: −'+f(-v2)]):'Vorabpauschale ausgeschaltet → 0 €';
+ $('wkv').innerHTML=km?L(['KV/PV-Mindestbeitrag: '+f(n('kvmin'))+' pro Monat','Jahresbeitrag: '+f(n('kvmin'))+' × 12 = '+f(kvj)]):L(['Berechnungsgrundlage: Kapitalerträge '+f(s1)+' + sonstige Erträge '+f(se)+' = '+f(s2),'Beitragssatz: '+n('kvs').toLocaleString('de-DE',{maximumFractionDigits:2})+' %','Monatsbeitrag: '+f(s2*n('kvs')/100/12)+' (mindestens '+f(n('kvmin'))+', höchstens '+f(n('kvmax'))+')','Jahresbeitrag: '+f(kvm)+' × 12 = '+f(kvj)]);
+ const sa=f(n('sa'));
+ $('w12').innerHTML=km?L(['KESt auf Kapitalerträge: '+f(kap)+' × 25 % = '+f(kap*0.25),'Soli: '+f(kap*0.25)+' × 5,5 % = '+f(kap*0.25*0.055),'Übrige Einkünfte: '+f(se)+' − KV/PV '+f(kvj)+' − Sonderausgaben '+sa+' = '+f(zve)+' (z. v. St. EK)','Einkommensteuer nach Tarif (Grundtarif §32a, Näherung) auf '+f(zve)+' = '+f(a2),'Summe: '+f(kest)+' + '+f(a2)+' = '+f(st)]):L(['Gesamte Einkünfte: '+f(s2),'− KV/PV '+f(kvj)+' − Sonderausgaben '+sa+' = '+f(zve)+' (z. v. St. EK)','Einkommensteuer nach Tarif (Grundtarif §32a, Näherung, Grundfreibetrag '+f(gf)+') auf '+f(zve)+' = '+f(st)]);
+ chart(inc,kvj,st,vj);
+ $('cap').textContent='Abgaben (KV/PV + Steuer): '+(inc>0?((kvj+st)/inc*100).toFixed(1).replace('.',','):'0')+' % der Einnahmen aus Verkauf und sonstigen Erträgen.';
+}
+const sliderConfig={best:[0,3000000,1000],gw:[0,100,1],se:[0,100000,100],vk:[0,300000,100],bz:[0,10,.1],spb:[0,5000,50],gf:[0,30000,100],kvs:[0,50,.1],kvmin:[0,1000,10],kvmax:[0,3000,10]};
+for(const [id,[min,max,step]] of Object.entries(sliderConfig)){
+ const input=$(id),box=input.closest('.in'),range=document.createElement('input');
+ range.type='range';range.className='param-range';range.min=min;range.max=max;range.step=step;range.value=parse(input.value);
+ const minus=document.createElement('button'),plus=document.createElement('button');
+ minus.type='button';plus.type='button';minus.className=plus.className='nudge';minus.textContent='−';plus.textContent='+';
+ minus.setAttribute('aria-label','Wert verringern');plus.setAttribute('aria-label','Wert erhöhen');
+ box.insertBefore(minus,input);box.append(plus,range);
+ const ratio=box.querySelector('.ratio');if(ratio)box.append(ratio);
+ const set=value=>{const next=Math.min(max,Math.max(min,Number(value)));input.value=next.toLocaleString('de-DE',{minimumFractionDigits:step<1?String(step).split('.')[1].length:0,maximumFractionDigits:step<1?String(step).split('.')[1].length:0});range.value=next;input.dispatchEvent(new Event('input'))};
+ range.addEventListener('input',()=>set(range.value));minus.addEventListener('click',()=>set(parse(input.value)-step));plus.addEventListener('click',()=>set(parse(input.value)+step));
+}
+document.querySelectorAll('input:not([type=hidden]):not([type=range])').forEach(e=>{e.setAttribute('inputmode','decimal');e.addEventListener('input',()=>{fmtInput(e);const range=e.parentElement.querySelector('.param-range');if(range)range.value=parse(e.value);calc()})});
+['vap','mod'].forEach(i=>['input','change'].forEach(e=>$(i).addEventListener(e,calc)));
+const presets={"lean-fire":[750000,4],"regular-fire":[1000000,3.5],"fat-fire":[1750000,3]};
+$('preset').addEventListener('change',()=>{const [wealth,rate]=presets[$('preset').value]||[];if(wealth===undefined)return;for(const [id,value] of [['best',wealth],['vk',wealth*rate/100]]){$(id).value=value.toLocaleString('de-DE');$(id).dispatchEvent(new Event('input'))}});
+document.querySelectorAll('.seg').forEach(g=>{const sel=$(g.dataset.for),upd=()=>g.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===sel.value));
+ g.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;sel.value=b.dataset.v;sel.dispatchEvent(new Event('input'));upd()});upd()});
+calc();
+</script></body></html>
