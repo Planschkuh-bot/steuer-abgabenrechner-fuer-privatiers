@@ -87,6 +87,7 @@ summary.r span:first-child::before{content:"▸ ";color:var(--mut)}details[open]
 <label class="p"><span>Anteil Gewinn bei Verkauf</span><span class="in"><input id="gw" value="70"><i>%</i></span></label>
 <label class="p"><span>GRV-Rente p.m.</span><span class="in"><input id="grv" value="0"><i>€</i></span></label>
 <label class="p"><span>Sonstige Erträge p.m.</span><span class="in"><input id="se" value="0"><i>€</i></span></label>
+<label class="p check"><span>Sonstige Erträge beitragspflichtig</span><input id="seBeitragspflichtig" type="checkbox"></label>
 <h3>Vorabpauschale</h3>
 <div class="p"><span>VAP berücksichtigen?</span><div class="seg" data-for="vap"><button data-v="1">Ja</button><button data-v="0">Nein</button></div></div>
 <label class="p"><span>Basiszins für VAP</span><span class="in"><input id="bz" value="3,2"><i>%</i></span></label>
@@ -175,7 +176,7 @@ function chart(inc,kv,st,av){
 }
 function calc(){
  const on=$('vap').value==='1',km=$('mod').value==='k',vk=n('vk'),gf=n('gf'),grv=n('grv')*12,sonstige=n('se')*12,se=grv+sonstige,privateToggle=$('privateKv'),rentnerToggle=$('rentnerKvdr');
- const privateKv=privateToggle.checked,kvdrEnabled=se>0&&!privateKv;
+ const privateKv=privateToggle.checked,seBeitragspflichtig=$('seBeitragspflichtig').checked,kvdrEnabled=grv>0&&!privateKv;
  rentnerToggle.disabled=!kvdrEnabled;
  rentnerToggle.closest('.check').classList.toggle('is-disabled',!kvdrEnabled);
  if(!kvdrEnabled)rentnerToggle.checked=false;
@@ -189,7 +190,7 @@ function calc(){
  const vf=n('bz')/100*0.7*(1-n('tfs')/100);
  const v1=on?Math.max(0,n('best')-vk)*vf:0,v2=on?-Math.min(vk*vf,gew):0;
  const s1=nach+v1+v2,s2=s1+se,kap=Math.max(0,s1);
- const kvdrRate=12.35,privateKvBrutto=n('privateKvm'),drvKvRate=8.75,drvZuschuss=privateKv?Math.min(privateKvBrutto/2,grv/12*drvKvRate/100):0,privateKvM=Math.max(0,privateKvBrutto-drvZuschuss),kvGrundlage=rentner?se:s2,kvBasis=privateKv?privateKvM:rentner?kvGrundlage*kvdrRate/100/12:km?n('kvmin'):Math.max(kvGrundlage*n('kvs')/100/12,n('kvmin')),kvm=privateKv?privateKvM:rentner?Math.min(n('kvmax'),kvBasis):km?kvBasis:Math.min(n('kvmax'),kvBasis),kvj=kvm*12;
+ const kvdrRate=12.35,privateKvBrutto=n('privateKvm'),drvKvRate=8.75,drvZuschuss=privateKv?Math.min(privateKvBrutto/2,grv/12*drvKvRate/100):0,privateKvM=Math.max(0,privateKvBrutto-drvZuschuss),kvGrundlage=rentner?grv+(seBeitragspflichtig?sonstige:0):s2,kvBasis=privateKv?privateKvM:rentner?kvGrundlage*kvdrRate/100/12:km?n('kvmin'):Math.max(kvGrundlage*n('kvs')/100/12,n('kvmin')),kvm=privateKv?privateKvM:rentner?Math.min(n('kvmax'),kvBasis):km?kvBasis:Math.min(n('kvmax'),kvBasis),kvj=kvm*12;
  const kvSteuerlich=privateKv?Math.min(kvj,n('kvmax')*12):kvj,abz=kvSteuerlich+n('sa'),kest=kap*0.25*1.055;
  let st,zve,a1,a2,l1,l2;
  if(km){zve=Math.max(0,se-abz);a1=kest;a2=tarif(zve,gf);st=a1+a2;
@@ -226,6 +227,7 @@ for(const [id,[min,max,step]] of Object.entries(sliderConfig)){
 document.querySelectorAll('input:not([type=hidden]):not([type=range]):not([type=checkbox])').forEach(e=>{e.setAttribute('inputmode','decimal');e.addEventListener('input',()=>{fmtInput(e);const range=e.parentElement.querySelector('.param-range');if(range)range.value=parse(e.value);calc()})});
 $('privateKv').addEventListener('change',calc);
 $('rentnerKvdr').addEventListener('change',calc);
+$('seBeitragspflichtig').addEventListener('change',calc);
 ['vap','mod'].forEach(i=>['input','change'].forEach(e=>$(i).addEventListener(e,calc)));
 const presets={"lean-fire":[750000,4],"regular-fire":[1000000,3.5],"fat-fire":[1750000,3]};
 $('preset').addEventListener('change',()=>{const [wealth,rate]=presets[$('preset').value]||[];if(wealth===undefined)return;for(const [id,value] of [['best',wealth],['vk',wealth*rate/100]]){$(id).value=value.toLocaleString('de-DE');$(id).dispatchEvent(new Event('input'))}});
