@@ -86,6 +86,7 @@ summary.r span:first-child::before{content:"▸";display:inline-block;width:16px
 <label class="p check"><span data-tip="Bei einem Aktien-ETF bleiben 30 % der Erträge steuerfrei.">Teilfreistellung (30 %)</span><input id="tfsToggle" type="checkbox" checked></label>
 <label class="p"><span data-tip="Der angenommene Anteil des Verkaufsbetrags, der aus Kursgewinnen besteht und steuerpflichtig sein kann.">Anteil Gewinn bei Verkauf</span><span class="in"><input id="gw" value="70"><i>%</i></span></label>
 <label class="p"><span data-tip="Die gesetzliche Rente pro Monat. Sie wird auf Jahresbasis umgerechnet und kann die benötigte Entnahme reduzieren.">GRV-Rente p.m.</span><span class="in"><input id="grv" value="0"><i>€</i></span></label>
+<label class="p check"><span>Rentner in der KVdR</span><input id="rentnerKvdr" type="checkbox"></label>
 <label class="p"><span data-tip="Weitere regelmäßige Einnahmen pro Monat, zum Beispiel Mieten oder Nebenverdienste.">Sonstige Erträge p.m.</span><span class="in"><input id="se" value="0"><i>€</i></span></label>
 <label class="p check"><span data-tip="Aktivieren, wenn die sonstigen Erträge aus einer sozialversicherungspflichtigen Beschäftigung stammen.">Aus sozialversicherungspflichtiger Beschäftigung</span><input id="seBeitragspflichtig" type="checkbox"></label>
 <h3>Vorabpauschale</h3>
@@ -102,7 +103,6 @@ summary.r span:first-child::before{content:"▸";display:inline-block;width:16px
 <label class="p"><span data-tip="Der monatliche Mindestbeitrag für Kranken- und Pflegeversicherung.">Mindestbetrag KV &amp; PV p.m.</span><span class="in"><input id="kvmin" value="295"><i>€</i></span></label>
 <label class="p"><span data-tip="Der monatliche Höchstbetrag für Kranken- und Pflegeversicherung.">Maximalbetrag KV &amp; PV p.m.</span><span class="in"><input id="kvmax" value="1.385"><i>€</i></span></label>
 </div>
-<label class="p check"><span>Rentner in der KVdR</span><input id="rentnerKvdr" type="checkbox"></label>
 <label class="p check"><span>Private Krankenversicherung</span><input id="privateKv" type="checkbox"></label>
 <div id="privateKvFields" class="kvdr-fields">
 <label class="p"><span>Beitrag Private KV &amp; PV p.m.</span><span class="in"><input id="privateKvm" value="800"><i>€</i></span></label>
@@ -249,7 +249,7 @@ function calc(){
  $('cap').textContent='Abgaben (KV/PV + Steuer): '+(inc>0?((kvj+st)/inc*100).toFixed(1).replace('.',','):'0')+' % der Einnahmen aus Verkauf und sonstigen Erträgen.';
  comparisonValues(inc,s1,s2,se,kvGrundlage,privateKv,privateKvM,rentner,kvdrRate,kest,gf,kirchensteuerAktiv);
 }
-const sliderConfig={best:[0,3000000,1000],gw:[0,100,1],grv:[0,10000,25],se:[0,10000,25],vk:[0,300000,100],bz:[0,10,.1],spb:[0,5000,50],gf:[0,30000,100],kvs:[0,50,.1],kvmin:[0,1000,10],kvmax:[0,3000,10],privateKvm:[0,3000,10]};
+const sliderConfig={best:[0,3000000,1000],gw:[0,100,1],grv:[0,5000,25],se:[0,10000,25],vk:[0,300000,100],bz:[0,10,.1],spb:[0,5000,50],gf:[0,30000,100],kvs:[0,50,.1],kvmin:[0,1000,10],kvmax:[0,3000,10],privateKvm:[0,3000,10]};
 for(const [id,[min,max,step]] of Object.entries(sliderConfig)){
  const input=$(id),box=input.closest('.in'),range=document.createElement('input');
  range.type='range';range.className='param-range';range.min=min;range.max=max;range.step=step;range.value=parse(input.value);
