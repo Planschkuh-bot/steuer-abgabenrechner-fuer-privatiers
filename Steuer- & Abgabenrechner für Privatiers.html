@@ -11,6 +11,8 @@ body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.45 Inter,-apple-s
 .top{max-width:1220px;margin:0 auto;padding:28px 20px 6px}
 .top h1{margin:0;font-size:23px;font-weight:700;letter-spacing:-.02em;line-height:1.25}
 .top p{margin:5px 0 0;color:var(--mut);font-size:12.5px}
+.brand{display:flex;align-items:flex-start;gap:14px}
+.brand .logo{flex:none;width:44px;height:44px;margin-top:5.5px;overflow:visible}
 .wrap{max-width:1220px;margin:0 auto;padding:16px 20px 32px;display:grid;grid-template-columns:340px 1fr;gap:20px;align-items:start}
 @media(max-width:860px){.wrap{grid-template-columns:1fr}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;box-shadow:0 2px 8px rgba(28,37,33,.04)}
@@ -37,13 +39,14 @@ h3{margin:18px 0 6px;font-size:13px;font-weight:700;color:var(--fg);letter-spaci
 .seg button:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
 .check input{width:18px;height:18px;accent-color:var(--acc);cursor:pointer}
 .check.is-disabled{opacity:.45;pointer-events:none}
+.p.is-disabled{opacity:.45}.p.is-disabled .in{pointer-events:none;filter:grayscale(.35)}
 .kvdr-fields.is-disabled{opacity:.45;pointer-events:none;filter:grayscale(.35)}
 .kpis{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:12px}
 @media(max-width:700px){.kpis{grid-template-columns:1fr 1fr}}
 .k{border-radius:10px;padding:12px;background:var(--sub);border:1px solid var(--line);box-shadow:none}.k small{color:var(--mut);font-size:10.5px;display:block}.k b{font-size:23px;font-weight:600;letter-spacing:-.02em;display:block;margin-top:2px;font-family:'IBM Plex Mono',ui-monospace,monospace}.k.main{padding:14px}.k.main b{font-size:29px}
 .k.main{border-color:var(--acc)}.k.main b{color:var(--acc)}
 .k .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
-.main-col{display:grid;gap:16px}.result-switches{margin-top:-8px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:10px;padding:10px 12px;background:var(--sub);border:1px solid #C9D5D1;border-radius:12px;box-shadow:0 2px 8px rgba(28,37,33,.04)}.result-switches .p{padding:0;display:flex;flex-direction:column;align-items:stretch;gap:4px;border:0}.result-switches .p+.p{border-top:0}.result-switches .p>span:first-child{min-width:0;color:var(--acc);font-size:13px;font-weight:700;letter-spacing:.1px}.result-switches .seg{flex:0 0 auto;width:100%;justify-content:stretch;background:rgba(255,255,255,.7);border-color:#BFD0CB}.result-switches .seg button{flex:1;text-align:center;padding:5px 5px}.result-switches .seg button[aria-pressed=true]{box-shadow:0 0 0 1px var(--acc),0 2px 4px rgba(47,93,98,.14)}}
+.main-col{display:grid;gap:16px}.result-switches{margin-top:-8px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:10px;padding:10px 12px;background:var(--sub);border:1px solid #C9D5D1;border-radius:12px;box-shadow:0 2px 8px rgba(28,37,33,.04)}.result-switches .p{padding:0;display:flex;flex-direction:column;align-items:stretch;gap:4px;border:0}.result-switches .p+.p{border-top:0}.result-switches .p>span:first-child{min-width:0;color:var(--acc);font-size:13px;font-weight:700;letter-spacing:.1px}.result-switches .seg{flex:0 0 auto;width:100%;justify-content:stretch;background:rgba(255,255,255,.7);border-color:#BFD0CB}.result-switches .seg button{flex:1;text-align:center;padding:5px 5px}.result-switches .seg button[aria-pressed=true]{box-shadow:0 0 0 1px var(--acc),0 2px 4px rgba(47,93,98,.14)}
 .chart svg{width:100%;height:auto;display:block;margin-top:8px}
 .chart .t{fill:var(--fg);font:600 12px Inter,sans-serif}.chart .l{fill:var(--mut);font:500 11px Inter,sans-serif}.chart h2{margin-bottom:8px}.chart+.chart{padding-top:14px}
 .chart .c{stroke:var(--line);stroke-dasharray:3 3}
@@ -53,6 +56,19 @@ h3{margin:18px 0 6px;font-size:13px;font-weight:700;color:var(--fg);letter-spaci
 .v{white-space:nowrap;font-weight:600;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12.5px}
 .tot,.tot .v{font-weight:700}
 .gap{height:10px}
+[hidden]{display:none!important}
+h4.sub{margin:12px 0 4px;font-size:11.5px;font-weight:700;color:var(--mut);letter-spacing:.2px}
+.srcbar{display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--soft);margin:4px 2px 6px}
+.srcbar span{display:block;height:100%}
+.sdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:baseline}
+.sdiv{background:var(--chart-kv)}.ssale{background:var(--chart-available)}
+#barDiv{background:var(--chart-kv)}#barSale{background:var(--chart-available)}
+.tbl .r{padding-left:10px;padding-right:10px}
+.r.r3{display:grid;grid-template-columns:minmax(0,1fr) 84px 100px;gap:8px;align-items:center}
+.r.r3>span:nth-child(n+2){text-align:right}
+.r3.head{font-size:11px;color:var(--mut);font-weight:600;padding-top:4px;padding-bottom:4px}
+.r3.sum{border-top:1px solid var(--mut)}
+.tbl details .wg{margin:4px 10px 6px}
 .r input{all:unset;width:110px;text-align:right;font-weight:600;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12.5px;background:var(--soft);border-radius:8px;padding:5px 9px;box-sizing:border-box}
 .r input:focus{box-shadow:0 0 0 2px var(--acc)}
 summary.r{cursor:pointer;list-style:none}summary.r::-webkit-details-marker{display:none}
@@ -70,7 +86,7 @@ summary.r span:first-child::before{content:"▸";display:inline-block;width:16px
 </style></head><body>
 <script data-goatcounter="https://planschkuh-entnahme.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
-<div class="top"><h1>Steuer- &amp; Abgabenrechner für Privatiers</h1><p>Aktien-ETF-Verkauf, Vorabpauschale, Krankenversicherung und Steuer im Überblick</p></div>
+<div class="top"><div class="brand"><svg class="logo" viewBox="7 7 50 50" role="img" aria-label="Logo: Ringdiagramm mit Euro-Zeichen"><g transform="rotate(-90 32 32)" fill="none" stroke-width="10"><circle cx="32" cy="32" r="20" stroke="#2F5D62" stroke-dasharray="85.9 39.8"/><circle cx="32" cy="32" r="20" stroke="#3A6B8A" stroke-dasharray="20.6 105.1" stroke-dashoffset="-87.9"/><circle cx="32" cy="32" r="20" stroke="#A8432F" stroke-dasharray="13 112.7" stroke-dashoffset="-110.5"/></g><text x="32" y="39" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="20" fill="#2F5D62">€</text></svg><div><h1>Steuer- &amp; Abgabenrechner für Privatiers</h1><p>Aktien-ETF-Verkauf, Vorabpauschale, Krankenversicherung und Steuer im Überblick</p></div></div></div>
 <div class="wrap">
 <aside class="card side"><h2>Parameter</h2>
 <h3>Presets</h3>
@@ -82,9 +98,11 @@ summary.r span:first-child::before{content:"▸";display:inline-block;width:16px
 </select>
 <h3>Bestand und Einnahmen</h3>
 <label class="p"><span data-tip="Der ETF-Wert zu Beginn des Berechnungsjahres. Er dient als Grundlage für die Vorabpauschale.">Bestand Aktien-ETF (Wert zu Jahresbeginn)</span><span class="in"><input id="best" value="1.000.000"><i>€</i></span></label>
-<label class="p"><span data-tip="Der Betrag, den du im Jahr aus dem ETF entnimmst. Er wird als Einnahme und als Verkauf von Anteilen berücksichtigt.">Verkauf Aktien-ETF-Anteile</span><span class="in"><input id="vk" value="35.000"><i>€</i><small class="ratio" id="vkPct"></small></span></label>
+<label class="p"><span data-tip="Anteil des ETF-Bestands, der thesaurierend ist. Der restliche Anteil wird als ausschüttend angenähert; die Ausschüttungsrendite stellst du separat ein. Beim Gewinnanteil im Verkauf wird für den ausschüttenden Anteil pauschal ein Faktor von 0,85 angesetzt.">Anteil thesaurierend</span><span class="in"><input id="thes" value="100"><i>%</i></span></label>
+<label class="p"><span data-tip="Angenommene jährliche Ausschüttungsrendite (Dividendenrendite) des ausschüttenden Anteils, bezogen auf den Bestand zu Jahresbeginn.">Dividendenrendite (ausschüttend)</span><span class="in"><input id="dy" value="1,75"><i>%</i></span></label>
+<label class="p"><span data-tip="Die Summe aus Verkaufserlösen und Ausschüttungen aus dem Aktien-ETF.">Entnahme aus Aktien-ETF</span><span class="in"><input id="vk" value="35.000"><i>€</i><small class="ratio" id="vkPct"></small></span></label>
 <label class="p check"><span data-tip="Bei einem Aktien-ETF bleiben 30 % der Erträge steuerfrei.">Teilfreistellung (30 %)</span><input id="tfsToggle" type="checkbox" checked></label>
-<label class="p"><span data-tip="Der angenommene Anteil des Verkaufsbetrags, der aus Kursgewinnen besteht und steuerpflichtig sein kann.">Anteil Gewinn bei Verkauf</span><span class="in"><input id="gw" value="70"><i>%</i></span></label>
+<label class="p"><span data-tip="Der angenommene Anteil des Verkaufsbetrags, der aus Kursgewinnen besteht und steuerpflichtig sein kann. Für den ausschüttenden Anteil wird dieser Wert pauschal mit 0,85 multipliziert, weil bei ausschüttenden ETF ein Teil der Rendite bereits ausgezahlt wurde.">Anteil Gewinn bei Verkauf</span><span class="in"><input id="gw" value="70"><i>%</i></span></label>
 <label class="p"><span data-tip="Die gesetzliche Rente pro Monat. Sie wird auf Jahresbasis umgerechnet und kann die benötigte Entnahme reduzieren.">GRV-Rente p.m.</span><span class="in"><input id="grv" value="0"><i>€</i></span></label>
 <label class="p check"><span>Rentner in der KVdR</span><input id="rentnerKvdr" type="checkbox"></label>
 <label class="p"><span data-tip="Weitere regelmäßige Einnahmen pro Monat, zum Beispiel Mieten oder Nebenverdienste.">Sonstige Erträge p.m.</span><span class="in"><input id="se" value="0"><i>€</i></span></label>
@@ -114,13 +132,22 @@ summary.r span:first-child::before{content:"▸";display:inline-block;width:16px
 <main class="main-col">
 <section class="card"><h2>Berechnung</h2>
 <div class="result-group"><h3>1. Einnahmen und Kapitalerträge</h3>
-<div class="r focus income"><span data-tip="Der jährliche Verkaufserlös aus ETF-Anteilen vor Abzug von Krankenversicherung und Steuer.">Verkauf Aktien-ETF-Anteile</span><span class="v" id="o0"></span></div>
-<div class="r"><span>davon Gewinn <span id="gwLabel"></span></span><span class="v" id="o1"></span></div>
-<div class="r"><span>abzüglich Teilfreistellung (30 %)</span><span class="v" id="o2"></span></div>
-<div class="r"><span>abzüglich Sparerpauschbetrag <span id="spbLabel"></span></span><span class="v" id="o3"></span></div>
-<details><summary class="r"><span>Vorabpauschale auf verbleibende Anteile</span><span class="v" id="o4"></span></summary><div class="wg" id="w4"></div></details>
-<details><summary class="r"><span>Vorabpauschale auf verkaufte Anteile</span><span class="v" id="o5"></span></summary><div class="wg" id="w5"></div></details>
-<div class="r focus total"><span data-tip="Die nach Teilfreistellung, Sparerpauschbetrag und Vorabpauschale verbleibenden steuerpflichtigen Kapitalerträge.">Steuerpflichtige Kapitalerträge</span><span class="v" id="o6"></span></div>
+<h4 class="sub">A · Herkunft der Entnahme</h4>
+<div class="r focus income"><span data-tip="Die jährliche Entnahme aus dem ETF einschließlich Verkaufserlösen und Ausschüttungen.">Entnahme aus Aktien-ETF</span><span class="v" id="o0"></span></div>
+<div class="srcbar" id="srcBar" hidden><span id="barDiv"></span><span id="barSale"></span></div>
+<div class="r" id="rowDiv" hidden><span><i class="sdot sdiv"></i>davon Ausschüttungen (Dividenden)</span><span class="v" id="o16"></span></div>
+<div class="r" id="rowSale" hidden><span><i class="sdot ssale"></i>davon Verkaufserlös</span><span class="v" id="o17"></span></div>
+<h4 class="sub">B · Steuerpflichtige Kapitalerträge</h4>
+<div class="tbl">
+<div class="r r3 head"><span>Quelle</span><span>Brutto</span><span>Steuerpflichtig</span></div>
+<details id="trSale"><summary class="r r3"><span>Gewinn aus Verkauf<em id="gwLabel" style="font-style:normal"></em></span><span class="v" id="gSaleB"></span><span class="v" id="gSaleT"></span></summary><div class="wg" id="wSale"></div></details>
+<div class="r r3" id="trDiv"><span>Ausschüttungen</span><span class="v" id="gDivB"></span><span class="v" id="gDivT"></span></div>
+<details id="trVap"><summary class="r r3"><span>Vorabpauschale, verbleibende Anteile</span><span class="v" id="gVapB"></span><span class="v" id="gVapT"></span></summary><div class="wg" id="w4"></div></details>
+<details id="trVapSold"><summary class="r r3"><span>Vorabpauschale, verkaufte Anteile (Abzug)</span><span class="v" id="gVapSB"></span><span class="v" id="gVapST"></span></summary><div class="wg" id="w5"></div></details>
+<div class="r r3 tot sum"><span>Summe</span><span class="v" id="gSumB"></span><span class="v" id="gSumT"></span></div>
+<div class="r r3"><span>Sparerpauschbetrag <span id="spbLabel"></span></span><span></span><span class="v" id="gSpb"></span></div>
+<div class="r r3 focus total"><span data-tip="Die nach Teilfreistellung, Vorabpauschale und Sparerpauschbetrag verbleibenden steuerpflichtigen Kapitalerträge.">Steuerpflichtige Kapitalerträge</span><span></span><span class="v" id="o6"></span></div>
+</div>
 <div id="modeRows"><div class="r" id="modeRow1"><span id="modeLabel1">KESt + Soli (25 % + 5,5 %)</span><span class="v" id="k0"></span></div><div class="r tot" id="modeRow2"><span id="modeLabel2">Summe</span><span class="v" id="o7"></span></div></div>
 </div>
 <div class="result-group"><h3>2. Kranken- und Pflegeversicherung</h3>
@@ -153,7 +180,7 @@ summary.r span:first-child::before{content:"▸";display:inline-block;width:16px
 <section class="card chart"><h2>Tarif und KESt im Vergleich</h2>
 <svg id="comparison" viewBox="0 0 560 340" role="img" aria-label="Vergleich von Tarif und KESt für KV und PV, Steuer und verfügbares Einkommen"></svg>
 <p class="cap">Die Werte zeigen die Ergebnisse beider Besteuerungsarten mit denselben Eingaben.</p></section></main></div>
-<div class="note">Tarif: KV/PV auf alle Einkünfte (mind. Mindestbetrag), alle Einkünfte inkl. Kapitalerträge nach Tarif. KESt: Kapitalerträge mit 25 % + 5,5 % Soli, KV/PV nur mit dem Mindestbetrag, übrige Einkünfte nach Tarif; ohne Kirchensteuer. Teilfreistellung fest 30 %. Tarif: 2026er §32a-Formel, verschoben um die Differenz des Grundfreibetrags – nur eine Näherung. VAP = Wert × Basiszins × 70 % × (1 − Teilfreistellung), höchstens der Gewinn bei verkauften Anteilen. Verfügbar = Verkauf + Sonstige Erträge − KV/PV − Steuer. Keine Steuerberatung.</div>
+<div class="note">Tarif: KV/PV auf alle Einkünfte (mind. Mindestbetrag), alle Einkünfte inkl. Kapitalerträge nach Tarif. KESt: Kapitalerträge mit 25 % + 5,5 % Soli, KV/PV nur mit dem Mindestbetrag, übrige Einkünfte nach Tarif; ohne Kirchensteuer. Teilfreistellung fest 30 %. Tarif: 2026er §32a-Formel, verschoben um die Differenz des Grundfreibetrags – nur eine Näherung. VAP = Wert × Basiszins × 70 % × (1 − Teilfreistellung), höchstens der Gewinn bei verkauften Anteilen. Verfügbar = Verkauf + Sonstige Erträge − KV/PV − Steuer. Ausschüttender Anteil: Dividendenrendite laut Regler; Gewinnanteil im Verkauf pauschal × 0,85; die Vorabpauschale wird um die Ausschüttungen gekürzt (vor Teilfreistellung). Keine Steuerberatung.</div>
 <script>
 const $=id=>document.getElementById(id);
 let openTip=null;
@@ -219,12 +246,11 @@ function calc(){
  $('privateKvFields').classList.toggle('is-disabled',!privateKv);
  $('kvdrFields').classList.toggle('is-disabled',rentner||privateKv);
  $('vkPct').textContent=(n('best')>0?(vk/n('best')*100).toLocaleString('de-DE',{maximumFractionDigits:2}):'0')+' % vom Bestand';
- $('gwLabel').textContent=' ('+n('gw').toLocaleString('de-DE',{maximumFractionDigits:2})+' %)';
  $('spbLabel').textContent=' ('+f(n('spb'))+')';
- const gew=vk*n('gw')/100,tf=gew*(1-n('tfs')/100),nach=Math.max(0,tf-n('spb'));
- const vf=n('bz')/100*0.7*(1-n('tfs')/100);
- const v1=on?Math.max(0,n('best')-vk)*vf:0,v2=on?-Math.min(vk*vf,gew):0;
- const s1=nach+v1+v2,s2=s1+se,kap=Math.max(0,s1);
+ const thesaurierend=Math.min(1,Math.max(0,n('thes')/100)),ausschuettend=1-thesaurierend,bestand=n('best'),dividenden=bestand*ausschuettend*(n('dy')/100),entnahme=Math.max(vk,dividenden),verkauf=Math.max(0,vk-dividenden),verkaufThes=verkauf*thesaurierend,verkaufAusschuettend=verkauf*ausschuettend,gewinnanteil=Math.min(1,Math.max(0,n('gw')/100))*(thesaurierend+0.85*ausschuettend),gew=verkauf*gewinnanteil,verkaufsgewinnSteuerpflichtig=gew*(1-n('tfs')/100),dividendenSteuerpflichtig=dividenden*(1-n('tfs')/100),sparerpauschbetrag=n('spb');
+ const dyAus=thesaurierend>=1,dyLabel=$('dy').closest('label');dyLabel.classList.toggle('is-disabled',dyAus);dyLabel.querySelectorAll('input,button').forEach(e=>e.disabled=dyAus);
+ const basis=n('bz')/100*0.7,tfF=1-n('tfs')/100,vf=basis*tfF,restThes=Math.max(0,bestand*thesaurierend-verkaufThes),restAus=Math.max(0,bestand*ausschuettend-verkaufAusschuettend),divRest=ausschuettend>0?dividenden*restAus/(bestand*ausschuettend):0,vapThesaurierend=on?restThes*vf:0,vapAusschuettendBrutto=on?restAus*vf:0,vapAusschuettend=on?Math.max(0,restAus*basis-divRest)*tfF:0,vapAusschuettungsabzug=vapAusschuettendBrutto-vapAusschuettend,vapBrutto=vapThesaurierend+vapAusschuettendBrutto,vapNetto=vapThesaurierend+vapAusschuettend;
+ const vapVerkauftBrutto=on?Math.min(verkauf*vf,gew):0,v2=-vapVerkauftBrutto,kapitalertraegeVorPauschbetrag=verkaufsgewinnSteuerpflichtig+dividendenSteuerpflichtig+vapNetto+v2,nach=Math.max(0,kapitalertraegeVorPauschbetrag-sparerpauschbetrag),s1=nach,s2=s1+se,kap=Math.max(0,s1),v1=vapThesaurierend+vapAusschuettendBrutto,tf=verkaufsgewinnSteuerpflichtig+dividendenSteuerpflichtig;
  const kvdrRate=12.35,kvSatz=n('kvs'),privateKvBrutto=n('privateKvm'),drvKvRate=8.75,drvZuschuss=privateKv?Math.min(privateKvBrutto/2,grv/12*drvKvRate/100):0,privateKvM=Math.max(0,privateKvBrutto-drvZuschuss),freiwilligeGkv=km&&!seBeitragspflichtig&&!rentner&&!privateKv,kvGrundlage=rentner||seBeitragspflichtig?grv+(seBeitragspflichtig?sonstige:0):s1+grv+sonstige,kvBasis=privateKv?privateKvM:rentner&&seBeitragspflichtig?grv*kvdrRate/100/12+sonstige*kvSatz/100/12:rentner?kvGrundlage*kvdrRate/100/12:km&&!freiwilligeGkv?n('kvmin'):Math.max(kvGrundlage*kvSatz/100/12,seBeitragspflichtig?0:n('kvmin')),kvm=privateKv?privateKvM:rentner?Math.min(n('kvmax'),kvBasis):km&&!freiwilligeGkv?kvBasis:Math.min(n('kvmax'),kvBasis),kvj=kvm*12;
  const kvSteuerlich=privateKv?Math.min(kvj,n('kvmax')*12):kvj,abz=kvSteuerlich+n('sa'),kest=kap*0.25*1.055;
  let st,zve,a1,a2,l1,l2;
@@ -236,12 +262,21 @@ function calc(){
  $('l1').textContent=l1;$('l2').textContent=l2;$('r3').style.display='none';$('r1').style.display='none';
  $('modeRow1').style.visibility='visible';$('modeRow2').style.visibility='visible';$('modeLabel1').textContent=km?'KESt + Soli (25 % + 5,5 %)':'GRV-Rente + sonstige Erträge';$('k0').textContent=f(km?kest:se);$('modeLabel2').textContent=km?'Sonstige Erträge':'Summe';$('o7').textContent=f(km?se:s2);
  $('k1').textContent=f(a1);$('k2').textContent=f(a2);
- const inc=vk+se,vj=inc-kvj-st;
- const o={o0:vk,o1:gew,o2:tf,o3:nach,o4:v1,o5:v2,o6:s1,o8:kvj,o9:kvm,o11:zve,o12:st,o13:st/12,o14:vj,o15:vj/12,p1:vj/12,p2:vj,p3:st,p4:kvj};
+ const inc=entnahme+se,vj=inc-kvj-st;
+  const sg=x=>{const r=Math.round(x);return r<0?'−'+f(-r):f(Math.abs(r))},tfDiv=tfF>0?tfF:1,vapRestPre=vapNetto/tfDiv,vapSoldPost=-vapVerkauftBrutto,vapSoldPre=vapSoldPost/tfDiv,sumPre=gew+dividenden+vapRestPre+vapSoldPre,spbAbzug=-Math.max(0,Math.min(sparerpauschbetrag,kapitalertraegeVorPauschbetrag));
+ $('srcBar').hidden=!(dividenden>0);$('rowDiv').hidden=!(dividenden>0);$('rowSale').hidden=!(dividenden>0&&verkauf>0);
+ $('barDiv').style.width=(entnahme>0?dividenden/entnahme*100:0)+'%';$('barSale').style.width=(entnahme>0?verkauf/entnahme*100:0)+'%';
+ $('trSale').hidden=!(gew>0);$('trDiv').hidden=!(dividenden>0);$('trVap').hidden=!on;$('trVapSold').hidden=!(on&&vapVerkauftBrutto>0);
+ const tb={gSaleB:gew,gSaleT:verkaufsgewinnSteuerpflichtig,gDivB:dividenden,gDivT:dividendenSteuerpflichtig,gVapB:vapRestPre,gVapT:vapNetto,gVapSB:vapSoldPre,gVapST:vapSoldPost,gSumB:sumPre,gSumT:kapitalertraegeVorPauschbetrag,gSpb:spbAbzug};
+ for(const k in tb)$(k).textContent=sg(tb[k]);
+ const o={o0:entnahme,o16:dividenden,o17:verkauf,o6:s1,o8:kvj,o9:kvm,o11:zve,o12:st,o13:st/12,o14:vj,o15:vj/12,p1:vj/12,p2:vj,p3:st,p4:kvj};
  for(const k in o)$(k).textContent=f(o[k]);
- const pf=x=>x.toLocaleString('de-DE',{maximumFractionDigits:3})+' %',bz=n('bz'),eff=vf*100,rest=Math.max(0,n('best')-vk),L=a=>a.map(t=>'<div>'+t+'</div>').join('');
- $('w4').innerHTML=on?L(['Verbleibender Bestand: '+f(n('best'))+' − '+f(vk)+' = '+f(rest),'Basisertrag: Basiszins '+pf(bz)+' × 70 % = '+pf(bz*0.7),'Nach Teilfreistellung: × (1 − '+pf(n('tfs'))+') = '+pf(eff),'VAP: '+f(rest)+' × '+pf(eff)+' = '+f(v1)]):'Vorabpauschale ausgeschaltet → 0 €';
- $('w5').innerHTML=on?L(['Verkaufsbetrag: '+f(vk)+' × '+pf(eff)+' (Faktor wie oben) = '+f(vk*vf),'Begrenzt auf den Gewinn ('+f(gew)+'): '+f(-v2),'Abzug: −'+f(-v2)]):'Vorabpauschale ausgeschaltet → 0 €';
+ const pf=x=>x.toLocaleString('de-DE',{maximumFractionDigits:3})+' %',bz=n('bz'),eff=vf*100,rest=Math.max(0,n('best')-verkauf),L=a=>a.map(t=>'<div>'+t+'</div>').join('');
+ $('w4').innerHTML=on?L(['Thesaurierender Anteil: '+f(Math.max(0,bestand*thesaurierend-verkaufThes)),'Ausschüttender Anteil: '+f(Math.max(0,bestand*ausschuettend-verkaufAusschuettend)),'Basisertrag: Basiszins '+pf(bz)+' × 70 % = '+pf(bz*0.7),'Nach Teilfreistellung: × (1 − '+pf(n('tfs'))+') = '+pf(eff),'VAP thesaurierend: '+f(vapThesaurierend),'VAP ausschüttend vor Ausschüttungsabzug: '+f(vapAusschuettendBrutto),...(dividenden>0?['Ausschüttungen auf verbleibende Anteile: '+f(dividenden)+' × ('+f(restAus)+' ÷ '+f(bestand*ausschuettend)+') = '+f(divRest),divRest*tfF>vapAusschuettendBrutto+0.5?'Ausschüttungsabzug: '+f(divRest)+' × (1 − '+pf(n('tfs'))+') = '+f(divRest*tfF)+', begrenzt auf die VAP vor Abzug: −'+f(vapAusschuettungsabzug):'Ausschüttungsabzug: '+f(divRest)+' × (1 − '+pf(n('tfs'))+') = −'+f(vapAusschuettungsabzug)]:['Ausschüttungsabzug: −'+f(vapAusschuettungsabzug)]),'Verbleibende VAP: '+f(vapNetto)]):'Vorabpauschale ausgeschaltet → 0 €';
+ $('w5').innerHTML=on?L(['VAP auf verkaufte Anteile: '+f(vapVerkauftBrutto),'Begrenzt auf den steuerpflichtigen Verkaufsgewinn: '+f(gew),'Abzug aus der VAP: −'+f(vapVerkauftBrutto)]):'Vorabpauschale ausgeschaltet → 0 €';
+ const gwc=Math.min(1,Math.max(0,n('gw')/100)),gewThes=verkaufThes*gwc,gewAus=verkaufAusschuettend*gwc*0.85,tfsP=n('tfs');
+ $('gwLabel').textContent=' ('+pf(gewinnanteil*100)+')';
+ $('wSale').innerHTML=L([dividenden>0?'Verkaufserlös: Entnahme '+f(vk)+' − Ausschüttungen '+f(dividenden)+' = '+f(verkauf):'Verkaufserlös = Entnahme: '+f(verkauf),'Der Verkauf erfolgt anteilig aus thesaurierenden und ausschüttenden ETF.'].concat(thesaurierend>0?['Thesaurierender Anteil ('+pf(thesaurierend*100)+'): Verkauf '+f(verkaufThes)+' × Gewinnanteil '+pf(gwc*100)+' = '+f(gewThes)]:[]).concat(ausschuettend>0?['Ausschüttender Anteil ('+pf(ausschuettend*100)+'): Verkauf '+f(verkaufAusschuettend)+' × Gewinnanteil ('+pf(gwc*100)+' × 0,85 = '+pf(gwc*85)+') = '+f(gewAus)]:[]).concat(['Gewinn aus Verkauf gesamt: '+(thesaurierend>0&&ausschuettend>0?f(gewThes)+' + '+f(gewAus)+' = ':'')+f(gew)+' (entspricht '+pf(gewinnanteil*100)+' des Verkaufserlöses)','Nach Teilfreistellung: '+f(gew)+' × (1 − '+pf(tfsP)+') = '+f(verkaufsgewinnSteuerpflichtig)]));
  $('wkv').innerHTML=privateKv?L(['Private Krankenversicherung','GRV-Rente: '+f(grv)+' p.a.','Sonstige Erträge: '+f(sonstige)+' p.a.','Bruttobeitrag: '+f(privateKvBrutto)+' p.m.','DRV-Zuschuss zur privaten KV aus der GRV-Rente: '+f(drvZuschuss)+' p.m.','Eigenanteil nach Zuschuss: '+f(privateKvM)+' p.m.','Jahresbeitrag Eigenanteil: '+f(kvj),'Steuerlich absetzbar: höchstens '+f(n('kvmax'))+' p.m. = '+f(n('kvmax')*12)+' p.a.','Angesetzt: '+f(kvSteuerlich)+' p.a.']):rentner?L([seBeitragspflichtig?'KVdR: GRV-Rente '+f(grv)+' × '+kvdrRate.toLocaleString('de-DE',{maximumFractionDigits:2})+' % + sonstige Erträge '+f(sonstige)+' × '+kvSatz.toLocaleString('de-DE',{maximumFractionDigits:2})+' %':'KVdR-Bemessungsgrundlage: GRV-Rente '+f(grv)+(seBeitragspflichtig?' + sonstige Erträge '+f(sonstige):''),'Beitragssatz: '+(seBeitragspflichtig?'KVdR '+kvdrRate.toLocaleString('de-DE',{maximumFractionDigits:2})+' %, sonstige Erträge '+kvSatz.toLocaleString('de-DE',{maximumFractionDigits:2})+' %':kvdrRate.toLocaleString('de-DE',{maximumFractionDigits:2})+' %'),'Monatsbeitrag: '+f(kvBasis)+' (höchstens '+f(n('kvmax'))+')','Jahresbeitrag: '+f(kvm)+' × 12 = '+f(kvj)]):km&&!freiwilligeGkv?L(['KV/PV-Mindestbeitrag: '+f(n('kvmin'))+' pro Monat','Jahresbeitrag: '+f(n('kvmin'))+' × 12 = '+f(kvj)]):L(['Bemessungsgrundlage: '+(seBeitragspflichtig?'GRV-Rente '+f(grv)+' + sonstige Erträge '+f(sonstige):'Kapitalerträge '+f(s1)+(grv>0?' + GRV-Rente '+f(grv):'')+' + sonstige Erträge '+f(sonstige))+' = '+f(kvGrundlage),'Beitragssatz: '+kvSatz.toLocaleString('de-DE',{maximumFractionDigits:2})+' %','Monatsbeitrag: '+f(kvGrundlage*kvSatz/100/12)+' ('+(seBeitragspflichtig?'höchstens '+f(n('kvmax')):'mindestens '+f(n('kvmin'))+', höchstens '+f(n('kvmax')))+')','Jahresbeitrag: '+f(kvm)+' × 12 = '+f(kvj)]);
  const sa=f(n('sa')),kirchensteuerDetail=kirchensteuerAktiv?['Kirchensteuer: '+f((km?kest+a2:st)*.09)+' = '+f(km?kest+a2:st)+' × 9 %']:[];
  $('w12').innerHTML=km?L(['KESt auf Kapitalerträge: '+f(kap)+' × 25 % = '+f(kap*0.25),'Soli: '+f(kap*0.25)+' × 5,5 % = '+f(kap*0.25*0.055),'GRV-Rente und sonstige Erträge: '+f(grv)+' + '+f(sonstige)+' = '+f(se),'Übrige Einkünfte: '+f(se)+' − steuerlich angesetzte KV/PV '+f(kvSteuerlich)+' − Sonderausgaben '+sa+' = '+f(zve)+' (z. v. St. EK)','Einkommensteuer nach Tarif (Grundtarif §32a, Näherung) auf '+f(zve)+' = '+f(a2),'Summe: '+f(kest)+' + '+f(a2)+' = '+f(kest+a2)].concat(kirchensteuerDetail).concat(kirchensteuerAktiv?['Gesamtsteuer: '+f(st)]:[])):L(['GRV-Rente: '+f(grv),'Sonstige Erträge: '+f(sonstige),'Gesamte Einkünfte: '+f(s2),'− steuerlich angesetzte KV/PV '+f(kvSteuerlich)+' − Sonderausgaben '+sa+' = '+f(zve)+' (z. v. St. EK)','Einkommensteuer nach Tarif (Grundtarif §32a, Näherung, Grundfreibetrag '+f(gf)+') auf '+f(zve)+' = '+f(a2)].concat(kirchensteuerDetail));
@@ -249,7 +284,7 @@ function calc(){
  $('cap').textContent='Abgaben (KV/PV + Steuer): '+(inc>0?((kvj+st)/inc*100).toFixed(1).replace('.',','):'0')+' % der Einnahmen aus Verkauf und sonstigen Erträgen.';
  comparisonValues(inc,s1,s2,se,kvGrundlage,privateKv,privateKvM,rentner,kvdrRate,kest,gf,kirchensteuerAktiv,seBeitragspflichtig,grv,sonstige,kvSatz);
 }
-const sliderConfig={best:[0,3000000,1000],gw:[0,100,1],grv:[0,5000,25],se:[0,10000,25],vk:[0,300000,100],bz:[0,10,.1],spb:[0,5000,50],gf:[0,30000,100],kvs:[0,50,.1],kvmin:[0,1000,10],kvmax:[0,3000,10],privateKvm:[0,3000,10]};
+const sliderConfig={best:[0,3000000,1000],thes:[0,100,5],dy:[0,10,.25],gw:[0,100,1],grv:[0,5000,25],se:[0,10000,25],vk:[0,300000,100],bz:[0,10,.1],spb:[0,5000,50],gf:[0,30000,100],kvs:[0,50,.1],kvmin:[0,1000,10],kvmax:[0,3000,10],privateKvm:[0,3000,10]};
 for(const [id,[min,max,step]] of Object.entries(sliderConfig)){
  const input=$(id),box=input.closest('.in'),range=document.createElement('input');
  range.type='range';range.className='param-range';range.min=min;range.max=max;range.step=step;range.value=parse(input.value);
