@@ -33,6 +33,9 @@ h3{margin:18px 0 6px;font-size:13px;font-weight:700;color:var(--fg);letter-spaci
 .in input.param-range{display:block;flex:0 0 100%;width:100%;height:4px;margin:7px 0 7px;padding:0;appearance:auto;-webkit-appearance:auto;accent-color:var(--acc);cursor:pointer}
 .preset{width:100%;padding:9px 12px;border:2px solid var(--acc);border-radius:8px;background:var(--card);color:var(--acc);font:500 12.5px Inter,sans-serif;box-shadow:0 2px 6px rgba(47,93,98,.08);cursor:pointer}
 .preset:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+.share-config{width:100%;margin-top:8px;padding:8px 12px;border:1px solid var(--acc);border-radius:8px;background:transparent;color:var(--acc);font:500 12px Inter,sans-serif;cursor:pointer}
+.share-config:hover{background:var(--soft)}
+.share-config:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
 .seg{display:flex;background:var(--sub);border:1px solid var(--line);border-radius:8px;padding:2px}
 .seg button{all:unset;cursor:pointer;padding:5px 10px;border-radius:6px;font-size:12px;font-weight:600;color:var(--mut)}
 .seg button[aria-pressed=true]{background:var(--card);color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
@@ -96,6 +99,7 @@ summary.r span:first-child::before{content:"▸";display:inline-block;width:16px
 <option value="regular-fire" selected>Regular FIRE (1.000.000 €, 3,5 % Entnahme)</option>
 <option value="fat-fire">Fat FIRE (1.750.000 €, 3 % Entnahme)</option>
 </select>
+<button id="shareConfig" class="share-config" type="button">Konfiguration teilen</button>
 <h3>Haushalt</h3>
 <div class="p"><span data-tip="Ehepaar (vereinfacht): Zusammenveranlagung mit Splittingtarif, Sparerpauschbetrag und Sonderausgaben-Pauschbetrag verdoppelt. Alle Eingaben (Bestand, Entnahme, Renten, sonstige Erträge) sind Haushaltswerte. Die KV/PV wird für zwei gleich gestellte Partner mit je der Hälfte berechnet.">Veranlagung</span><div class="seg" data-for="hh"><button data-v="s">Single</button><button data-v="e">Ehepaar</button></div></div>
 <h3>Bestand und Einnahmen</h3>
@@ -315,8 +319,15 @@ function presetStateFor(wealth,rate){const values=defaultParameterState.map(({el
 function updatePresetLabel(){if(applyingPreset)return;const current=presetState(),match=Object.entries(presets).find(([key,[wealth,rate]])=>current===presetStateFor(wealth,rate));if(match){$('preset').value=match[0];selectedPresetState=current}else if($('preset').value){$('preset').value='';presetOption.textContent='Individuell';selectedPresetState=current}}
 $('preset').addEventListener('change',()=>{const [wealth,rate]=presets[$('preset').value]||[];if(wealth===undefined)return;applyingPreset=true;defaultParameterState.forEach(({element,value,checked})=>{if(element.type==='checkbox')element.checked=checked;else if(element.tagName==='SELECT')element.value=value;else element.value=typeof value==='number'?value.toLocaleString('de-DE'):value});$('tfs').value='30';$('tfsToggle').checked=true;$('grv').value='0';$('se').value='0';$('mod').value='g';$('rentnerKvdr').checked=false;$('privateKv').checked=false;$('seBeitragspflichtig').checked=false;$('kirchensteuer').checked=false;$('vap').value='1';document.querySelector('.seg[data-for="mod"] button[data-v="g"]').click();document.querySelector('.seg[data-for="vap"] button[data-v="1"]').click();$('best').value=wealth.toLocaleString('de-DE');$('vk').value=(wealth*rate/100).toLocaleString('de-DE');presetElements.forEach(element=>{if(element.type==='checkbox')element.dispatchEvent(new Event('change'));else if(element.type!=='hidden')element.dispatchEvent(new Event('input'))});document.querySelectorAll('.seg[data-for="mod"] button').forEach(button=>button.setAttribute('aria-pressed',button.dataset.v==='g'));selectedPresetState=presetState();applyingPreset=false;calc()});
 document.addEventListener('input',e=>{if(e.target!==$('preset'))updatePresetLabel()});document.addEventListener('change',e=>{if(e.target!==$('preset'))updatePresetLabel()});
+const shareDefaultLabel='🔗 Konfiguration teilen';
+function setShareLabel(label){$('shareConfig').textContent=label;setTimeout(()=>{$('shareConfig').textContent=shareDefaultLabel},2000)}
+const shareElements=Array.from(document.querySelectorAll('input,select')).filter(element=>element.id!=='preset');
+function shareConfig(){const sp=new URLSearchParams();shareElements.forEach(element=>{if(element.type==='checkbox')sp.set(element.id,element.checked);else sp.set(element.id,element.value)});const url=window.location.origin+window.location.pathname+'?'+sp.toString();if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(url).then(()=>setShareLabel('✓ Link kopiert')).catch(()=>setShareLabel('Kopieren fehlgeschlagen'))}else setShareLabel('Kopieren fehlgeschlagen')}
+function loadSharedConfig(){const sp=new URLSearchParams(window.location.search);if(!sp.size)return;shareElements.forEach(element=>{if(!sp.has(element.id))return;const value=sp.get(element.id);if(element.type==='checkbox')element.checked=value==='true';else element.value=value});document.querySelectorAll('input:not([type=hidden]):not([type=range]):not([type=checkbox])').forEach(element=>{fmtInput(element);const range=element.parentElement.querySelector('.param-range');if(range)range.value=parse(element.value)});document.querySelectorAll('.seg[data-for]').forEach(group=>{const select=$(group.dataset.for);group.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',button.dataset.v===select.value))})}
+$('shareConfig').addEventListener('click',shareConfig);
 document.querySelectorAll('.seg[data-for]').forEach(g=>{const sel=$(g.dataset.for),upd=()=>document.querySelectorAll('.seg[data-for="'+g.dataset.for+'"]').forEach(group=>group.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===sel.value)));
  g.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;sel.value=b.dataset.v;sel.dispatchEvent(new Event('input'));upd()});upd()});
 initTooltips();
+loadSharedConfig();
 calc();
 </script></body></html>
